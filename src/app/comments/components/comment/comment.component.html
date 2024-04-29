@@ -1,0 +1,103 @@
+<div class="comment-stack" *ngIf="comment">
+  <div class="comment">
+    <div class="comment__left-layout">
+      <div class="voting">
+        <app-icon-btn
+          iconClass="fa-solid fa-plus"
+          btnClass="voting__btn voting__up-btn"
+          (clicked)="onUpVote()"
+        ></app-icon-btn>
+        <span class="voting__count">{{ comment.score }}</span>
+        <app-icon-btn
+          iconClass="fa-solid fa-minus"
+          btnClass="voting__btn voting__down-btn"
+          (clicked)="onDownVote()"
+        ></app-icon-btn>
+      </div>
+    </div>
+    <div class="comment__right-layout">
+      <div class="comment__header">
+        <div class="author">
+          <img
+            class="author__avatar"
+            [src]="comment.user.image.png"
+            alt="lukesskywalker"
+          />
+          <a href="#" class="author__name">{{ comment.user.username }}</a>
+          <span
+            class="author__current-user-label"
+            *ngIf="currentUser.username === comment.user.username"
+            >YOU</span
+          >
+          <span class="author__date">{{
+            comment.createdAt | timeAgo | async
+          }}</span>
+        </div>
+        <div class="action-btns">
+          <app-icon-btn
+            *ngIf="currentUser.username !== comment.user.username"
+            iconClass="fa-solid fa-reply"
+            btnClass="reply-btn"
+            text="Reply"
+            (clicked)="onReply()"
+          ></app-icon-btn>
+          <app-icon-btn
+            *ngIf="isEditing"
+            iconClass="fa-solid fa-trash"
+            btnClass="reply-btn red-color-text"
+            text="Delete"
+            (clicked)="onDelete(deleteModalTemplate)"
+          ></app-icon-btn>
+          <app-icon-btn
+            *ngIf="currentUser.username === comment.user.username"
+            iconClass="fa-solid fa-pen"
+            btnClass="reply-btn"
+            text="Edit"
+            (clicked)="onEdit()"
+          ></app-icon-btn>
+        </div>
+      </div>
+      <div class="comment__message mt-1" *ngIf="!isEditing">
+        <a href="#" *ngIf="comment.replyingTo">@{{ comment.replyingTo }}</a>
+        {{ comment.content }}
+      </div>
+      <app-create-comment
+        *ngIf="isEditing"
+        [edit]="true"
+        [comment]="comment"
+        [currentUser]="currentUser"
+        (submitEvent)="onUpdate()"
+      ></app-create-comment>
+    </div>
+  </div>
+  <div
+    class="replies"
+    [class.d-none]="isHiddenReplies"
+    *ngIf="comment.replies && comment.replies.length > 0"
+  >
+    <button
+      class="collapse-line"
+      aria-label="Hide Replies"
+      (click)="isHiddenReplies = true"
+    ></button>
+    <div class="nested-replies">
+      <app-comment
+        *ngFor="let comment of comment.replies; trackBy: identify"
+        [comment]="comment"
+        [currentUser]="currentUser"
+      ></app-comment>
+    </div>
+  </div>
+  <app-create-comment
+    *ngIf="isReplying"
+    [reply]="true"
+    [comment]="comment"
+    [currentUser]="currentUser"
+    (submitEvent)="onReplySubmit($event)"
+  ></app-create-comment>
+</div>
+
+<ng-template #deleteModalTemplate>
+  Are you sure you want to delete this comment? This will remove the comment and
+  can't be undone.
+</ng-template>

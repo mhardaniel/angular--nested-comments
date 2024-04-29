@@ -1,0 +1,45 @@
+<div
+  class="create-comment"
+  [ngClass]="{
+    'mt-1': reply || edit,
+    'create-comment--edit': edit,
+    'p-15': add || reply
+  }"
+>
+  <img
+    *ngIf="currentUser && (add || reply)"
+    class="create-avatar"
+    [src]="currentUser.image.png"
+    [alt]="currentUser.username"
+  />
+  <div class="create-textarea-box">
+    <textarea
+      name="create-content"
+      class="create-textarea-content"
+      [id]="
+        (add || reply ? 'create' : 'edit') +
+        '-textarea-id' +
+        (comment ? '-' + comment.id : '')
+      "
+      required
+      #createTextArea
+      [(ngModel)]="commentContent"
+    ></textarea>
+    <label
+      class="create-textarea-label"
+      [for]="
+        (add || reply ? 'create' : 'edit') +
+        '-textarea-id' +
+        (comment ? '-' + comment.id : '')
+      "
+      >Add a comment...</label
+    >
+  </div>
+  <button
+    (click)="submit()"
+    class="create-btn"
+    [ngClass]="{ 'create-btn--edit': !add }"
+  >
+    {{ add || reply ? "send" : "update" }}
+  </button>
+</div>

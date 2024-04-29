@@ -1,0 +1,15 @@
+<div class="container">
+  <app-create-comment
+    [add]="true"
+    [currentUser]="currentUser"
+    (submitEvent)="onCreate($event)"
+  ></app-create-comment>
+
+  <section class="comments">
+    <app-comment
+      *ngFor="let comment of comments; trackBy: identify"
+      [comment]="comment"
+      [currentUser]="currentUser"
+    ></app-comment>
+  </section>
+</div>

@@ -32,7 +32,11 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/_scss"]
+            },
+            "scripts": [],
+            "allowedCommonJsDependencies": ["moment"]
           },
           "configurations": {
             "production": {
@@ -95,6 +99,9 @@
             "styles": [
               "src/styles.scss"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["src/assets/_scss"]
+            },
             "scripts": []
           }
         }

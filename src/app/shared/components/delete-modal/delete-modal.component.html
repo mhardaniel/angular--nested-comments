@@ -1,0 +1,20 @@
+<div class="modal">
+  <div class="modal-header">{{ title }}</div>
+  <div class="modal-content">
+    <ng-content></ng-content>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="modal-btn modal-btn-close" (click)="close()">
+      {{ cancelBtnTxt }}
+    </button>
+    <button
+      type="button"
+      class="modal-btn bg-red modal-btn-confirm"
+      (click)="confirm()"
+    >
+      {{ confirmBtnTxt }}
+    </button>
+  </div>
+</div>
+
+<div class="modal-backdrop" (click)="close()"></div>

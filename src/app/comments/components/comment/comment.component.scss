@@ -1,0 +1,73 @@
+@import "variables";
+
+.comment {
+  display: flex;
+  background-color: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  gap: 2rem;
+
+  &__header {
+    display: flex;
+
+    .author {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+      margin-right: auto;
+
+      &__avatar {
+        width: 60px;
+      }
+
+      &__name {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      &__date {
+        color: #d6d6d6;
+      }
+
+      &__current-user-label {
+        background: $btn-color;
+        border-radius: 5px;
+        color: white;
+        padding: 0.1rem;
+        font-weight: bold;
+      }
+    }
+    .action-btns {
+      display: flex;
+      gap: 2rem;
+    }
+  }
+
+  &__right-layout {
+    width: 100%;
+  }
+}
+
+.voting {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  // font-size: 1.5rem;
+  color: $btn-color;
+  align-items: center;
+}
+
+.comment-stack {
+  margin: 0.5rem 0;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+.replies {
+  display: flex;
+}
+
+.nested-replies {
+  width: 100%;
+  padding-left: 2rem;
+}

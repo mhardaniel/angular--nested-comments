@@ -1,0 +1,22 @@
+@import "variables";
+
+.voting__btn {
+  all: unset;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.reply-btn {
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  font-size: inherit;
+  color: $btn-color;
+  padding: 0;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.red-color-text {
+  color: #e01818;
+}

@@ -1,0 +1,62 @@
+@import "variables";
+
+.create {
+  &-comment {
+    display: flex;
+    background-color: white;
+    border-radius: 15px;
+    gap: 2rem;
+    align-items: flex-start;
+    &--edit {
+      flex-direction: column;
+    }
+  }
+  &-btn {
+    all: unset;
+    cursor: pointer;
+    background-color: $btn-color;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-transform: uppercase;
+    &--edit {
+      margin-left: auto;
+    }
+  }
+
+  &-avatar {
+    width: 60px;
+  }
+}
+
+.create-textarea {
+  &-box {
+    margin-right: auto;
+    width: 100%;
+    position: relative;
+  }
+  &-content {
+    width: 100%;
+    border-radius: 5px;
+    border-color: $btn-color;
+    padding: 1rem;
+    outline-color: $btn-color;
+    resize: none;
+    height: 100px;
+    &:valid + label {
+      top: -7%;
+    }
+    &:focus + label {
+      top: -7%;
+      color: $btn-color;
+    }
+  }
+
+  &-label {
+    background: white;
+    position: absolute;
+    left: 2%;
+    top: 16%;
+    transition: 300ms all;
+  }
+}
