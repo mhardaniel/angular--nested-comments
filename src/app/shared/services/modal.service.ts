@@ -9,7 +9,7 @@ import {
 import {Subject} from 'rxjs'
 import {DeleteModalComponent} from '../components/delete-modal/delete-modal.component'
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class ModalService {
   private modalNotifier?: Subject<string>
   vcRef!: ViewContainerRef

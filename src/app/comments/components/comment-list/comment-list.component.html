@@ -1,15 +1,19 @@
-<div class="container">
-  <app-create-comment
-    [add]="true"
-    [currentUser]="currentUser"
-    (submitEvent)="onCreate($event)"
-  ></app-create-comment>
+<ng-container *ngIf="data$ | async as data">
+  <div class="container">
+    <ng-container *ngIf="data.currentUser">
+      <app-create-comment
+        [add]="true"
+        [currentUser]="data.currentUser"
+        (submitEvent)="onCreate($event)"
+      ></app-create-comment>
 
-  <section class="comments">
-    <app-comment
-      *ngFor="let comment of comments; trackBy: identify"
-      [comment]="comment"
-      [currentUser]="currentUser"
-    ></app-comment>
-  </section>
-</div>
+      <section class="comments">
+        <app-comment
+          *ngFor="let comment of data.comments; trackBy: identify"
+          [comment]="comment"
+          [currentUser]="data.currentUser"
+        ></app-comment>
+      </section>
+    </ng-container>
+  </div>
+</ng-container>

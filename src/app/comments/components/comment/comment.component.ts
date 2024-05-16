@@ -8,12 +8,13 @@ import {
 } from '@angular/core'
 import {FormsModule} from '@angular/forms'
 import {TimeAgoPipe} from '../../../shared/pipes/time-ago.pipe'
-import {CommentsService} from '../../services/comments.service'
 import {ModalService} from '../../../shared/services/modal.service'
 import {CommentInterface} from '../../types/comment.interface'
 import {UserInterface} from '../../../shared/types/user.interface'
 import {CreateCommentComponent} from '../create-comment/create-comment.component'
 import {IconBtnComponent} from '../../../shared/components/icon-btn/icon-btn.component'
+import {Store} from '@ngrx/store'
+import {commentActions} from '../../store/comments.actions'
 
 @Component({
   selector: 'app-comment',
@@ -40,7 +41,7 @@ export class CommentComponent {
     viewContainerRef: ViewContainerRef,
     private modalService: ModalService,
     private elementRef: ElementRef,
-    private commentsService: CommentsService,
+    private store: Store,
   ) {
     modalService.vcRef = viewContainerRef
   }
@@ -63,13 +64,14 @@ export class CommentComponent {
         this.isEditing = false
         this.elementRef.nativeElement.remove()
 
-        this.commentsService.delete(this.comment.id)
+        if (this.comment.id)
+          this.store.dispatch(commentActions.delete({id: this.comment.id}))
       })
   }
 
-  onUpdate(): void {
+  onUpdate(comment: CommentInterface): void {
     try {
-      this._update()
+      this._update(comment)
       this.isEditing = false
     } catch (error) {
       this.isEditing = true
@@ -78,32 +80,23 @@ export class CommentComponent {
 
   onUpVote(): void {
     this.comment.score++
-    this._update()
+    this._update(this.comment)
   }
   onDownVote(): void {
     if (this.comment.score === 0) return
     this.comment.score--
-    this._update()
+    this._update(this.comment)
   }
 
-  private _update() {
+  private _update(comment: CommentInterface) {
     try {
-      this.commentsService.update(this.comment)
+      this.store.dispatch(commentActions.update({request: comment}))
     } catch (error) {}
   }
 
-  onReplySubmit(commentContent: string): void {
+  onReplySubmit(comment: CommentInterface): void {
     try {
-      let replyComment: CommentInterface = {
-        id: 0,
-        content: commentContent,
-        createdAt: new Date().toISOString(),
-        score: 0,
-        user: this.currentUser,
-        replyingTo: this.comment.user.username,
-      }
-
-      this.comment.replies?.unshift(replyComment)
+      this.comment.replies?.unshift(comment)
       this.isReplying = false
     } catch (error) {}
   }

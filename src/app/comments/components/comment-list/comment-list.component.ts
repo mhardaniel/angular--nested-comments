@@ -1,67 +1,40 @@
 import {CommonModule} from '@angular/common'
-import {HttpClientModule} from '@angular/common/http'
 import {Component, OnInit} from '@angular/core'
-import {CommentsService} from '../../services/comments.service'
-import {ModalService} from '../../../shared/services/modal.service'
-import {UserService} from '../../../shared/services/user.service'
 import {CommentInterface} from '../../types/comment.interface'
-import {UserInterface} from '../../../shared/types/user.interface'
 import {CommentComponent} from '../comment/comment.component'
 import {CreateCommentComponent} from '../create-comment/create-comment.component'
+import {Store} from '@ngrx/store'
+import {commentActions} from '../../store/comments.actions'
+import {combineLatest} from 'rxjs'
+import {commentFeature} from '../../store/comments.reducers'
+import {userFeature} from 'src/app/shared/store/users/users.reducers'
+import {userActions} from 'src/app/shared/store/users/users.actions'
 
 @Component({
   selector: 'app-comment-list',
   templateUrl: './comment-list.component.html',
   styleUrls: ['./comment-list.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    CommentComponent,
-    CreateCommentComponent,
-  ],
-  providers: [CommentsService, UserService, ModalService],
+  imports: [CommonModule, CommentComponent, CreateCommentComponent],
 })
 export class CommentListComponent implements OnInit {
-  comments: CommentInterface[] = []
-  currentUser!: UserInterface
+  data$ = combineLatest({
+    comments: this.store.select(commentFeature.selectComments),
+    currentUser: this.store.select(userFeature.selectCurrentUser),
+  })
 
-  constructor(
-    private commentsService: CommentsService,
-    private userService: UserService,
-  ) {}
+  constructor(private store: Store) {
+    //
+  }
 
   ngOnInit(): void {
-    this._getCurrentUser()
-    this._get()
+    this.store.dispatch(userActions.currentUser())
+    this.store.dispatch(commentActions.load())
   }
 
-  private _getCurrentUser(): void {
-    this.userService.get().subscribe((data) => {
-      this.currentUser = data
-    })
-  }
-
-  private _get(): void {
-    this.commentsService.get().subscribe((data) => {
-      this.comments = data
-    })
-  }
-
-  onCreate(commentContent: string): void {
+  onCreate(comment: CommentInterface): void {
     try {
-      let newComment: CommentInterface = {
-        id: 0,
-        content: commentContent,
-        createdAt: new Date().toISOString(),
-        score: 0,
-        user: this.currentUser,
-        replies: [],
-      }
-
-      this.commentsService.create(newComment).subscribe((comment) => {
-        this.comments.unshift(comment)
-      })
+      this.store.dispatch(commentActions.create({request: comment}))
     } catch (error) {}
   }
 

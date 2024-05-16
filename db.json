@@ -20,7 +20,7 @@
       "replies": []
     },
     {
-      "id": "2",
+      "id": 2,
       "content": "Woah, your project looks awesome! How long have you been coding for? I'm still new, but think I want to dive into Angular as well soon. Perhaps you can give me an insight on where I can learn Angular? Thanks!",
       "createdAt": "2023-08-18T13:49:51.141Z",
       "score": 5,
@@ -73,5 +73,46 @@
           ]
         }
       ]
+    },
+    {
+      "id": "787a",
+      "content": "comment 1",
+      "createdAt": "2024-05-07T18:02:01.349Z",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/assets/images/avatars/yoda.png"
+        },
+        "username": "yoda"
+      },
+      "replies": []
+    },
+    {
+      "id": "6deb",
+      "content": "comment 2",
+      "createdAt": "2024-05-07T18:04:48.426Z",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/assets/images/avatars/yoda.png"
+        },
+        "username": "yoda"
+      },
+      "replies": []
+    },
+
+    {
+      "id": "6debb",
+      "content": "comment 2",
+      "createdAt": "2024-05-07T18:04:48.426Z",
+      "score": 0,
+      "user": {
+        "image": {
+          "png": "/assets/images/avatars/yoda.png"
+        },
+        "username": "yoda"
+      },
+      "replies": []
     }
-]}
+  ]
+}

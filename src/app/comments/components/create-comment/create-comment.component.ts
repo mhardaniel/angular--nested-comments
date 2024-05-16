@@ -26,7 +26,7 @@ export class CreateCommentComponent implements OnChanges {
   @Input() reply? = false
   @Input() comment?: CommentInterface
   @Input() currentUser!: UserInterface
-  @Output() submitEvent = new EventEmitter<string>()
+  @Output() submitEvent = new EventEmitter<CommentInterface>()
 
   @ViewChild('createTextArea') set createTextAreaRef(ref: ElementRef) {
     if (!!ref) {
@@ -42,8 +42,35 @@ export class CreateCommentComponent implements OnChanges {
   }
 
   submit(): void {
-    if (this.edit && this.comment) this.comment.content = this.commentContent
-    this.submitEvent.emit(this.commentContent)
-    if (this.add) this.commentContent = ''
+    if (this.reply && this.comment) {
+      let replyComment = {
+        content: this.commentContent,
+        createdAt: new Date().toISOString(),
+        score: 0,
+        user: this.currentUser,
+        replyingTo: this.comment.user.username,
+      }
+
+      this.submitEvent.emit(replyComment)
+    }
+    if (this.edit && this.comment) {
+      const editData: CommentInterface = {
+        ...this.comment,
+        content: this.commentContent,
+      }
+      this.submitEvent.emit(editData)
+    }
+    if (this.add) {
+      let newComment = {
+        content: this.commentContent,
+        createdAt: new Date().toISOString(),
+        score: 0,
+        user: this.currentUser,
+        replies: [],
+      }
+
+      this.submitEvent.emit(newComment)
+      this.commentContent = ''
+    }
   }
 }
